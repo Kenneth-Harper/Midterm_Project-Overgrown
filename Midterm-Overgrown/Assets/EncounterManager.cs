@@ -9,7 +9,8 @@ public class EncounterManager : MonoBehaviour
     void Start()
     {
         currentGameState = EncounterState.CombatStart;
-        Player.instance.ShuffleDeck();
+        //Player.instance.ShuffleDeck();
+        //InitiateDrawPhase();
     }
 
     void InitiateDrawPhase()

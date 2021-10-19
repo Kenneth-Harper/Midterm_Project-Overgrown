@@ -24,8 +24,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        this.PlayerDeck = _StartDeck;
         instance = this;
+        instance.PlayerDeck = _StartDeck;
     }
 
     void Update()
@@ -64,18 +64,30 @@ public class Player : MonoBehaviour
             ShuffledDeck.Insert(ShuffleIndex, card);
             DeckOrderIndex++;
         }
+        instance.PlayerDeck.RemoveRange(0, instance.PlayerDeck.Count);
 
-        instance.PlayerDeck = ShuffledDeck;
+        instance.PlayerDeck.AddRange(ShuffledDeck);
+
     }
 
     public void DrawHand()
     {
         for (int index = 0 ; index < instance.HandSize; index++)
         {
-            PlayerHand.Insert(index, instance.PlayerDeck[0]);
-            instance.PlayerDeck.RemoveAt(0);
-            instance.PlayerDeck.TrimExcess();
+            instance.PlayerHand.Add(instance.PlayerDeck[index]);
         }
+
+        instance.PlayerDeck.RemoveRange(0, instance.HandSize - 1);
+
+        foreach (GameObject card in instance.PlayerHand)
+        {
+            Instantiate(card, new Vector3(-15.5f, -4.6f, 0), Quaternion.identity);
+        }
+    }
+
+    public void DrawCard()
+    {
+
     }
 
     public void DiscardHand()
