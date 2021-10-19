@@ -4,23 +4,30 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    List<GameObject> PlayerDeck;
+    
     [SerializeField] List<GameObject> _StartDeck;
     [SerializeField] int _PlayerHealth = 60;
+    
+    
+    List<GameObject> PlayerDeck;
+    List<GameObject> PlayerHand;
+    int HandSize = 6;
+    List<GameObject> PlayerDiscardPile;
+    
+    
     public static Player instance;
+    
+    
     int _PlayerEnergy = 4;
     public GameObject _CurrentTarget;
-
     public bool _IsTargeting = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         this.PlayerDeck = _StartDeck;
         instance = this;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -28,25 +35,53 @@ public class Player : MonoBehaviour
 
     public void ShuffleDeck()
     {
-        int MaxIndex = instance.PlayerDeck.Count - 1;
-        List<int> UsedIndices = new List<int>();
-        List<GameObject> ShuffledDeck = new List<GameObject>(instance.PlayerDeck.Count);
+        int MaxIndex = instance.PlayerDeck.Count;
+        List<int> newIndices = new List<int>(MaxIndex);
+        List<GameObject> ShuffledDeck = new List<GameObject>(MaxIndex);
+        
+        for (int i = 0; i < MaxIndex; i++)
+        {
+            ShuffledDeck.Add(null);
+        }
+
         foreach (GameObject card in instance.PlayerDeck)
         {
-            int CurrentIndex = Random.Range(0, MaxIndex);
-            if (UsedIndices.Contains(CurrentIndex))
+            int newIndex = Random.Range(0, MaxIndex);
+            if (newIndices.Contains(newIndex))
             {
-                while (UsedIndices.Contains(CurrentIndex))
+                while (newIndices.Contains(newIndex))
                 {
-                    CurrentIndex = Random.Range(0,MaxIndex);
+                    newIndex = Random.Range(0, MaxIndex);
                 }
             }
-            else
-            {
-                UsedIndices.Add(CurrentIndex);
-            }
-            ShuffledDeck.Insert(CurrentIndex, card);
+            newIndices.Add(newIndex);
         }
+
+        int DeckOrderIndex = 0;
+        foreach (GameObject card in instance.PlayerDeck)
+        {
+            int ShuffleIndex = newIndices[DeckOrderIndex];
+            ShuffledDeck.Insert(ShuffleIndex, card);
+            DeckOrderIndex++;
+        }
+
+        instance.PlayerDeck = ShuffledDeck;
+    }
+
+    public void DrawHand()
+    {
+        for (int index = 0 ; index < instance.HandSize; index++)
+        {
+            PlayerHand.Insert(index, instance.PlayerDeck[0]);
+            instance.PlayerDeck.RemoveAt(0);
+            instance.PlayerDeck.TrimExcess();
+        }
+    }
+
+    public void DiscardHand()
+    {
+        instance.PlayerDiscardPile.AddRange(instance.PlayerHand);
+        instance.PlayerHand.Clear();
     }
 
     public void SpendEnergy(int cost)

@@ -17,13 +17,13 @@ public class EncounterManager : MonoBehaviour
         if (currentGameState == EncounterState.CombatStart || currentGameState == EncounterState.EnemyTurnEnd)
         {
             currentGameState = EncounterState.DrawPhase;
-
+            Player.instance.DrawHand();
         }
     }
 
     void EndPlayerTurn()
     {
-
+        
     }
 
     void InitiateEnemyTurn()
