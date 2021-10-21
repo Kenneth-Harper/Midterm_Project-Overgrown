@@ -6,19 +6,20 @@ public class Player : MonoBehaviour
 {
     
     [SerializeField] List<GameObject> _StartDeck;
-    [SerializeField] int _PlayerHealth = 60;
-    
-    
     List<GameObject> PlayerDeck;
-    List<GameObject> PlayerHand;
+    [SerializeField] List<GameObject> PlayerHand = new List<GameObject>(6);
     int HandSize = 6;
-    List<GameObject> PlayerDiscardPile;
+    [SerializeField] List<GameObject> PlayerDiscardPile;
     
-    
+    [SerializeField] int _PlayerHealth = 60;
+    [SerializeField] GameObject EnergyText;
+
+
     public static Player instance;
     
-    
-    int _PlayerEnergy = 4;
+    [SerializeField] public int _MaxPlayerEnergy = 3;
+    int _CurrentPlayerEnergy;
+
     public GameObject _CurrentTarget;
     public bool _IsTargeting = false;
 
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
     {
         instance = this;
         instance.PlayerDeck = _StartDeck;
+        instance._CurrentPlayerEnergy = _MaxPlayerEnergy;
     }
 
     void Update()
@@ -35,54 +37,43 @@ public class Player : MonoBehaviour
 
     public void ShuffleDeck()
     {
-        int MaxIndex = instance.PlayerDeck.Count;
-        List<int> newIndices = new List<int>(MaxIndex);
-        List<GameObject> ShuffledDeck = new List<GameObject>(MaxIndex);
-        
-        for (int i = 0; i < MaxIndex; i++)
+        //Shuffling Algorithm found https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052/, by Smooth Foundations
+        int Count = instance.PlayerDeck.Count;
+        int lastIndex = Count - 1;
+
+        for(int i = 0; i < lastIndex; ++i)
         {
-            ShuffledDeck.Add(null);
+            int r = Random.Range(i, Count);
+            GameObject Temp = instance.PlayerDeck[i];
+            instance.PlayerDeck[i] = instance.PlayerDeck[r];
+            instance.PlayerDeck[r] = Temp;
         }
-
-        foreach (GameObject card in instance.PlayerDeck)
-        {
-            int newIndex = Random.Range(0, MaxIndex);
-            if (newIndices.Contains(newIndex))
-            {
-                while (newIndices.Contains(newIndex))
-                {
-                    newIndex = Random.Range(0, MaxIndex);
-                }
-            }
-            newIndices.Add(newIndex);
-        }
-
-        int DeckOrderIndex = 0;
-        foreach (GameObject card in instance.PlayerDeck)
-        {
-            int ShuffleIndex = newIndices[DeckOrderIndex];
-            ShuffledDeck.Insert(ShuffleIndex, card);
-            DeckOrderIndex++;
-        }
-        instance.PlayerDeck.RemoveRange(0, instance.PlayerDeck.Count);
-
-        instance.PlayerDeck.AddRange(ShuffledDeck);
-
     }
 
     public void DrawHand()
     {
+        EnergyText.GetComponent<EnergyGauge>().UpdateEnergy(_CurrentPlayerEnergy);
+        
         for (int index = 0 ; index < instance.HandSize; index++)
         {
             instance.PlayerHand.Add(instance.PlayerDeck[index]);
+            instance.PlayerHand[index].GetComponent<AttackCard>().SetPlaceInHand(index);
         }
 
-        instance.PlayerDeck.RemoveRange(0, instance.HandSize - 1);
+        instance.PlayerDeck.RemoveRange(0, instance.HandSize);
 
-        foreach (GameObject card in instance.PlayerHand)
+        float ExtraDistance = 2f;
+
+        for (int i = 0; i < instance.PlayerHand.Count; i++)
         {
-            Instantiate(card, new Vector3(-15.5f, -4.6f, 0), Quaternion.identity);
+            Instantiate(instance.PlayerHand[i], new Vector3(-15.5f + (ExtraDistance * i), -5f, 0), Quaternion.identity);
         }
+    }
+
+    public void PlayCard(int index)
+    {
+        instance.PlayerDiscardPile.Add(instance.PlayerHand[index]);
+        instance.PlayerHand.RemoveAt(index);
     }
 
     public void DrawCard()
@@ -98,11 +89,17 @@ public class Player : MonoBehaviour
 
     public void SpendEnergy(int cost)
     {
-        _PlayerEnergy -= cost;
+        _CurrentPlayerEnergy -= cost;
+        EnergyText.GetComponent<EnergyGauge>().UpdateEnergy(_CurrentPlayerEnergy);
     }
 
     public void PlayerTakeDamage(int damage)
     {
         _PlayerHealth -= damage;
+    }
+
+    public bool CanPlayCard(int _energyCost)
+    {
+        return (instance._CurrentPlayerEnergy - _energyCost) >= 0;
     }
 }
