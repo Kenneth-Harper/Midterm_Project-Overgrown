@@ -1699,3 +1699,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGameState: 0
+  instance: {fileID: 0}

@@ -12,6 +12,7 @@ public static class EncounterEvents
 {
     public static event EventHandler LookingForTarget;
     public static event EventHandler<EncounterEventArgs> AttackTargetReply;
+    public static event EventHandler PlayerTurnStarted;
     public static event EventHandler PlayerTurnEnded;
     public static event EventHandler EnemyTurnStarted;
     public static event EventHandler EnemyTurnEnded;

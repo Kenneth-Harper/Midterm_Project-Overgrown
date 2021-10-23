@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EndTurnButton : MonoBehaviour
 {
+    private bool _IsBeingPressed = false;
     void Start()
     {
         
@@ -21,9 +22,17 @@ public class EndTurnButton : MonoBehaviour
 
     private void OnMouseDown() 
     {
-        EncounterEvents.InvokeTurnEnded();
+        _IsBeingPressed = true;
     }
 
+    private void OnMouseUp()
+    {
+        if (_IsBeingPressed)
+        {
+            _IsBeingPressed = false;
+            EncounterEvents.InvokeTurnEnded();
+        }
+    }
     private void OnMouseExit() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;

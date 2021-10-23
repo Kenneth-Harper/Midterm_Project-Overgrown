@@ -7,6 +7,7 @@ public class EncounterManager : MonoBehaviour
 {
     public EncounterState currentGameState;
 
+    public EncounterManager instance;
     private void Awake() 
     {
         EncounterEvents.PlayerTurnEnded += OnTurnEnded;    
@@ -15,9 +16,10 @@ public class EncounterManager : MonoBehaviour
 
     void Start()
     {
+        instance = this;
         currentGameState = EncounterState.CombatStart;
         Player.instance.ShuffleDeck();
-        InitiateDrawPhase();
+        Invoke("InitiateDrawPhase", 2);
     }
 
     void InitiateDrawPhase()
@@ -26,7 +28,7 @@ public class EncounterManager : MonoBehaviour
         {
             currentGameState = EncounterState.DrawPhase;
             Player.instance.DrawHand();
-            InitiatePlayerTurn();
+            Invoke("InitiatePlayerTurn", 1);
         }
     }
 
@@ -88,7 +90,7 @@ public class EncounterManager : MonoBehaviour
         if (currentGameState == EncounterState.EnemyTurn)
         {
             currentGameState = EncounterState.EnemyTurnEnd;
-            InitiateDrawPhase();
+            Invoke("InitiateDrawPhase", 2);
         }
     }
 
