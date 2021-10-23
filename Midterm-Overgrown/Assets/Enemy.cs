@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] int _HealthPoints = 20;
     [SerializeField] int _TopDamage = 10;
     [SerializeField] int _BottomDamage = 5;
+    
+    
+    
     void Start()
     {
+        
         Debug.Log("Enemy HP " + _HealthPoints);
     }
 
@@ -45,9 +50,10 @@ public class Enemy : MonoBehaviour
         Debug.Log("Enemy HP " + _HealthPoints);
     }
 
-    void attackPlayer()
+    public void attackPlayer()
     {
-        int _attackValue = Random.Range(_BottomDamage, _TopDamage);
+        int _attackValue = UnityEngine.Random.Range(_BottomDamage, _TopDamage);
         Player.instance.PlayerTakeDamage(_attackValue);
+        Debug.Log("Player HP " + Player.instance._PlayerHealth);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class AttackCard : MonoBehaviour
 {
@@ -8,7 +9,6 @@ public class AttackCard : MonoBehaviour
     [SerializeField] int _energyCost = 1;
     int _PlaceInHand;
     Vector3 _PlaceWhenInHand;
-
 
     void Start()
     {
