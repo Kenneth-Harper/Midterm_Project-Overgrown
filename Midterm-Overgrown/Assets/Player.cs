@@ -51,9 +51,24 @@ public class Player : MonoBehaviour
         
     }
 
+    public void ShuffleList(List<GameObject> CardPile)
+    {
+        //Shuffling Algorithm found at https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052/, by Smooth Foundations
+        int Count = CardPile.Count;
+        int lastIndex = Count - 1;
+
+        for(int i = 0; i < lastIndex; ++i)
+        {
+            int r = UnityEngine.Random.Range(i, Count);
+            GameObject Temp = CardPile[i];
+            CardPile[i] = CardPile[r];
+            CardPile[r] = Temp;
+        }
+    }
+
     public void ShuffleDeck()
     {
-        //Shuffling Algorithm found https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052/, by Smooth Foundations
+        //Shuffling Algorithm found at https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052/, by Smooth Foundations
         int Count = instance.PlayerDeck.Count;
         int lastIndex = Count - 1;
 
@@ -67,7 +82,11 @@ public class Player : MonoBehaviour
     }
 
     public void DrawHand()
-    {
+    {   
+        if (instance.PlayerDeck.Count < HandSize)
+        {
+            instance.ReshuffleDiscardPile();
+        }
         
         _TurnIndicator.GetComponent<TurnIndicator>().ShowDrawPhase();
         instance._CurrentPlayerEnergy = _MaxPlayerEnergy;
@@ -107,6 +126,13 @@ public class Player : MonoBehaviour
     {
         instance.PlayerDiscardPile.AddRange(instance.PlayerHandList);
         instance.PlayerHandList.Clear();
+    }
+
+    public void ReshuffleDiscardPile()
+    {
+        ShuffleList(instance.PlayerDiscardPile);
+        instance.PlayerDeck.AddRange(instance.PlayerDiscardPile);
+        instance.PlayerDiscardPile.Clear();
     }
 
     public void SpendEnergy(int cost)
