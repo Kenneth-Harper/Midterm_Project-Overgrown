@@ -5,9 +5,16 @@ using System;
 
 public class EnemyManager : MonoBehaviour
 {
+    [SerializeField] List<GameObject> EnemyHealthTexts;
+
     private void Awake() 
     {
         EncounterEvents.EnemyTurnStarted += OnEnemyTurnStarted;    
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            GameObject enemy = gameObject.transform.GetChild(i).gameObject;
+            enemy.GetComponent<Enemy>().HealthTextObject = EnemyHealthTexts[i];
+        }
     }
 
     void Start()

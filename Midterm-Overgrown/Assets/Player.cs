@@ -20,7 +20,9 @@ public class Player : MonoBehaviour
     [SerializeField] List<GameObject> PlayerDiscardPile;
     
     [SerializeField] public int _PlayerHealth = 60;
+    [SerializeField] public int _MaxPlayerHealth = 60;
     [SerializeField] GameObject EnergyText;
+    [SerializeField] GameObject HealthText;
 
 
     //Player Energy
@@ -38,12 +40,16 @@ public class Player : MonoBehaviour
 
     public static Player instance;
 
-    void Start()
+    void Awake()
     {
         instance = this;
         instance.PlayerDeck = _StartDeck;
         instance._CurrentPlayerEnergy = _MaxPlayerEnergy;
-        Debug.Log("Player HP " + _PlayerHealth);
+    }
+
+    void Start()
+    {
+        HealthText.GetComponent<PlayerHPUpdater>().UpdateHealth();
     }
 
     void Update()
@@ -110,7 +116,7 @@ public class Player : MonoBehaviour
         }
         _TurnIndicator.GetComponent<TurnIndicator>().ShowPlayerTurn();
     }
-
+    
     public void PlayCard(int index)
     {
         instance.PlayerDiscardPile.Add(instance.PlayerHandList[index]);
@@ -144,6 +150,7 @@ public class Player : MonoBehaviour
     public void PlayerTakeDamage(int damage)
     {
         _PlayerHealth -= damage;
+        HealthText.GetComponent<PlayerHPUpdater>().UpdateHealth();
     }
 
     public bool CanPlayCard(int _energyCost)

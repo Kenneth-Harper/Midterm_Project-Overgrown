@@ -6,15 +6,15 @@ using System;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] int _HealthPoints = 20;
+    [SerializeField] int _MaxHealthPoints = 20;
     [SerializeField] int _TopDamage = 10;
     [SerializeField] int _BottomDamage = 5;
-    
+    [SerializeField] public GameObject HealthTextObject;
     
     
     void Start()
     {
-        
-        Debug.Log("Enemy HP " + _HealthPoints);
+        HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints);
     }
 
     // Update is called once per frame
@@ -47,13 +47,12 @@ public class Enemy : MonoBehaviour
     public void EnemyTakeDamage(int damage)
     {
         _HealthPoints -= damage;
-        Debug.Log("Enemy HP " + _HealthPoints);
+        HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints);
     }
 
     public void attackPlayer()
     {
         int _attackValue = UnityEngine.Random.Range(_BottomDamage, _TopDamage);
         Player.instance.PlayerTakeDamage(_attackValue);
-        Debug.Log("Player HP " + Player.instance._PlayerHealth);
     }
 }
