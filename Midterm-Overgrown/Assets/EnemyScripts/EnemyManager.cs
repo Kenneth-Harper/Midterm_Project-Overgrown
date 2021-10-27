@@ -9,7 +9,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake() 
     {
-        EncounterEvents.EnemyTurnStarted += OnEnemyTurnStarted;    
+        EncounterEvents.EnemyTurnStarted += OnEnemyTurnStarted;
+        EncounterEvents.EnemyDied += OnEnemyDied;    
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             GameObject enemy = gameObject.transform.GetChild(i).gameObject;
@@ -35,5 +36,10 @@ public class EnemyManager : MonoBehaviour
             enemy.GetComponent<Enemy>().attackPlayer();
         }
         EncounterEvents.InvokeEnemyTurnEnded();
+    }
+
+    void OnEnemyDied(object sender, EventArgs args)
+    {
+        EncounterEvents.InvokeEndEncounter();
     }
 }

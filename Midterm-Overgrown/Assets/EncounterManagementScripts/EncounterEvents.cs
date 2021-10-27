@@ -17,6 +17,9 @@ public static class EncounterEvents
     public static event EventHandler EnemyTurnStarted;
     public static event EventHandler EnemyTurnEnded;
     public static event EventHandler DiscardingHand;
+    
+    public static event EventHandler EnemyDied;
+    public static event EventHandler EndEncounter;
 
     public static void InvokeLookingForTarget()
     {
@@ -46,5 +49,15 @@ public static class EncounterEvents
     public static void InvokeEnemyTurnEnded()
     {
         EnemyTurnEnded(null, EventArgs.Empty);
+    }
+
+    public static void InvokeEndEncounter()
+    {
+        EndEncounter(null, EventArgs.Empty);
+    }
+
+    public static void InvokeEnemyDied()
+    {
+        EnemyDied(null, EventArgs.Empty);
     }
 }

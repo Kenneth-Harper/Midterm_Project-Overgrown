@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -48,6 +50,11 @@ public class Enemy : MonoBehaviour
     {
         _HealthPoints -= damage;
         HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints);
+        if (_HealthPoints <= 0)
+        {
+            EncounterEvents.InvokeEnemyDied();
+            HealthTextObject.GetComponent<TextMeshProUGUI>().enabled = false;
+        }
     }
 
     public void attackPlayer()
