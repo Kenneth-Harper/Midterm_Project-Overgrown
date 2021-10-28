@@ -21,6 +21,6 @@ public class PlayerHPUpdater : MonoBehaviour
     public void UpdateHealth()
     {
         TextMeshProUGUI textComponent = gameObject.GetComponent<TextMeshProUGUI>();
-        textComponent.text = "HP:" + Player.instance._PlayerHealth + "/" + Player.instance._MaxPlayerHealth;
+        textComponent.text = "BP: " + Player.instance._PlayerBlock + " HP:" + Player.instance._PlayerHealth + "/" + Player.instance._MaxPlayerHealth;
     }
 }

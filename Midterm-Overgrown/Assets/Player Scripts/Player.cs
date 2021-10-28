@@ -19,16 +19,17 @@ public class Player : MonoBehaviour
     //Discard Pile
     [SerializeField] List<GameObject> PlayerDiscardPile;
     
+    //Player Stats
     [SerializeField] public int _PlayerHealth = 60;
     [SerializeField] public int _MaxPlayerHealth = 60;
-    [SerializeField] GameObject EnergyText;
+    public int _PlayerBlock = 0;
     [SerializeField] GameObject HealthText;
 
 
     //Player Energy
     [SerializeField] public int _MaxPlayerEnergy = 3;
     int _CurrentPlayerEnergy;
-
+    [SerializeField] GameObject EnergyText;
 
     [SerializeField] GameObject _TurnIndicator;
 
@@ -89,6 +90,7 @@ public class Player : MonoBehaviour
 
     public void DrawHand()
     {   
+        instance._PlayerBlock = 0;
         if (instance.PlayerDeck.Count < HandSize)
         {
             instance.ReshuffleDiscardPile();
@@ -102,7 +104,7 @@ public class Player : MonoBehaviour
         for (int index = 0 ; index < instance.HandSize; index++)
         {
             instance.PlayerHandList.Add(instance.PlayerDeck[index]);
-            instance.PlayerHandList[index].GetComponent<AttackCard>().SetPlaceInHand(index);
+            instance.PlayerHandList[index].GetComponent<Card>().SetPlaceInHand(index);
         }
 
         instance.PlayerDeck.RemoveRange(0, instance.HandSize);
@@ -149,7 +151,23 @@ public class Player : MonoBehaviour
 
     public void PlayerTakeDamage(int damage)
     {
-        _PlayerHealth -= damage;
+        int Remainder = damage - instance._PlayerBlock;
+        if (Remainder > 0)
+        {
+            _PlayerBlock = 0;
+            _PlayerHealth -= Remainder;
+        }
+        else
+        {
+            _PlayerBlock -= damage;
+        }
+        
+        HealthText.GetComponent<PlayerHPUpdater>().UpdateHealth();
+    }
+
+    public void AddBlock(int _ValueAdded)
+    {
+        instance._PlayerBlock += _ValueAdded;
         HealthText.GetComponent<PlayerHPUpdater>().UpdateHealth();
     }
 

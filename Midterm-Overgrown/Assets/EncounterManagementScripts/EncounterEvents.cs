@@ -17,7 +17,6 @@ public static class EncounterEvents
     public static event EventHandler EnemyTurnStarted;
     public static event EventHandler EnemyTurnEnded;
     public static event EventHandler DiscardingHand;
-    
     public static event EventHandler EnemyDied;
     public static event EventHandler EndEncounter;
 
