@@ -13,5 +13,6 @@ public class AttackCard_IceSpike : AttackCard
     {
         this.Target.EnemyTakeDamage(_attackDamage);
         this.Target.AddFrail(_FrailAmount);
+        base.CardPlayed();
     }
 }

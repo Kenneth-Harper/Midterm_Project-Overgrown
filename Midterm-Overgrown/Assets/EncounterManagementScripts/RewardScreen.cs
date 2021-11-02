@@ -6,6 +6,10 @@ using System;
 public class RewardScreen : MonoBehaviour
 {
     [SerializeField] GameObject Background;
+    [SerializeField] GameObject CardReward1;
+    [SerializeField] GameObject CardReward2;
+    [SerializeField] GameObject PetalReward;
+    [SerializeField] GameObject ThanksText;
 
     void Awake()
     {
@@ -24,6 +28,10 @@ public class RewardScreen : MonoBehaviour
 
     void OnEndEncounter(object sender, EventArgs args)
     {
-        Background.GetComponent<SpriteRenderer>().enabled = true;
+        Background.SetActive(true);
+        CardReward1.SetActive(true);
+        CardReward2.SetActive(true);
+        PetalReward.SetActive(true);
+        ThanksText.SetActive(true);
     }
 }

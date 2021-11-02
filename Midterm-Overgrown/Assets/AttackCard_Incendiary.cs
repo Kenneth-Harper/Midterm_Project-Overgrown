@@ -15,9 +15,10 @@ public class AttackCard_Incendiary : AttackCard
         
     }
 
-    void AffectEnemy()
+    public override void AffectEnemy()
     {
         this.Target.EnemyTakeDamage(_attackDamage);
         this.Target.AddScorched(_ScorchAmount);
+        base.CardPlayed();
     }
 }

@@ -12,5 +12,6 @@ public class AttackCard_SteamStrike : AttackCard
     public override void AffectEnemy()
     {
         this.Target.EnemyTakeDamage(this._attackDamage);
+        base.CardPlayed();
     }
 }

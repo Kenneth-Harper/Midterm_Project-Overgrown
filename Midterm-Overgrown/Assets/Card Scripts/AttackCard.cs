@@ -9,26 +9,26 @@ public class AttackCard : Card
 
     private void OnMouseDrag() 
     {
-        gameObject.transform.position = new Vector3(-10.9f, -2.35f, gameObject.transform.position.z);
+        this.gameObject.transform.position = new Vector3(-10.9f, -2.35f, gameObject.transform.position.z);
         Player.instance._IsTargeting = true;    
     }
 
     private void OnMouseUp() 
     {
+        this.gameObject.transform.position = this._PlaceWhenInHand;
         if (Player.instance._IsTargeting)
         {
             Player.instance._IsTargeting = false;
-            gameObject.transform.position = this._PlaceWhenInHand;
             if (Player.instance._CurrentTarget != null && Player.instance.CanPlayCard(this._energyCost))
             {
                 Target = Player.instance._CurrentTarget.GetComponent<Enemy>();
                 AffectEnemy();
-                CardPlayed();
+                Player.instance._CurrentTarget = null;
             }
         }
     }
 
-    private void CardPlayed()
+    protected void CardPlayed()
     {
         Player.instance.PlayCard(this._PlaceInHand);
         Player.instance.SpendEnergy(_energyCost);

@@ -39,6 +39,9 @@ public class Player : MonoBehaviour
     public bool _IsTargeting = false;
 
 
+    //Player Currency
+    int _PlayerPetals = 0;
+
     public static Player instance;
 
     void Awake()
@@ -87,6 +90,11 @@ public class Player : MonoBehaviour
             instance.PlayerDeck[i] = instance.PlayerDeck[r];
             instance.PlayerDeck[r] = Temp;
         }
+    }
+
+    public void AddCardtoDeck(GameObject card)
+    {
+        instance.PlayerDeck.Add(card);
     }
 
     public void DrawHand()
@@ -150,6 +158,11 @@ public class Player : MonoBehaviour
         EnergyText.GetComponent<EnergyGauge>().UpdateEnergy(_CurrentPlayerEnergy);
     }
 
+    public void AddPetals(int amount)
+    {
+        _PlayerPetals += amount;
+    }
+
     public void PlayerTakeDamage(int damage)
     {
         int Remainder = damage - instance._PlayerBlock;
@@ -184,6 +197,8 @@ public class Player : MonoBehaviour
 
     void OnEndEncounter(object sender, EventArgs args)
     {
-        
+        _TurnIndicator.SetActive(false);
+        HealthText.SetActive(false);
+        _PlayerHandObject.SetActive(false);
     }
 }

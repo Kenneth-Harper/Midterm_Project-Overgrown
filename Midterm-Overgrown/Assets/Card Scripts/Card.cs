@@ -8,9 +8,12 @@ public class Card : MonoBehaviour
     [SerializeField] protected int _energyCost = 1;
     protected Vector3 _PlaceWhenInHand;
 
+    private void Awake() 
+    {
+         _PlaceWhenInHand = gameObject.transform.position;
+    }
     void Start()
     {
-        _PlaceWhenInHand = gameObject.transform.position;
     }
 
     void Update()
