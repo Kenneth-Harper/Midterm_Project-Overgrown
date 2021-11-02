@@ -421,7 +421,7 @@ MonoBehaviour:
   _MaxHealthPoints: 20
   _TopDamage: 10
   _BottomDamage: 5
-  HealthTextObject: {fileID: 0}
+  HealthTextObject: {fileID: 1001345544}
 --- !u!61 &477760642
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1869,13 +1869,13 @@ MonoBehaviour:
   - {fileID: 3484477813494583154, guid: 63333d4086ff0364fba3626f20992fd7, type: 3}
   - {fileID: 3484477813494583154, guid: 63333d4086ff0364fba3626f20992fd7, type: 3}
   - {fileID: 3484477813494583154, guid: 63333d4086ff0364fba3626f20992fd7, type: 3}
-  - {fileID: 3484477813494583154, guid: 63333d4086ff0364fba3626f20992fd7, type: 3}
-  - {fileID: 3484477813494583154, guid: 63333d4086ff0364fba3626f20992fd7, type: 3}
+  - {fileID: 2297106721929131185, guid: 8265f5272d012fb4ca58e19aa046c220, type: 3}
+  - {fileID: 2297106721929131185, guid: 8265f5272d012fb4ca58e19aa046c220, type: 3}
   - {fileID: 8528075444468659344, guid: ca494aab039653f46b3eec0d8fae1b25, type: 3}
   - {fileID: 8528075444468659344, guid: ca494aab039653f46b3eec0d8fae1b25, type: 3}
   - {fileID: 8528075444468659344, guid: ca494aab039653f46b3eec0d8fae1b25, type: 3}
-  - {fileID: 8528075444468659344, guid: ca494aab039653f46b3eec0d8fae1b25, type: 3}
-  - {fileID: 8528075444468659344, guid: ca494aab039653f46b3eec0d8fae1b25, type: 3}
+  - {fileID: 9014378878450773112, guid: 593380f4ec10e004daecabf21945374d, type: 3}
+  - {fileID: 9014378878450773112, guid: 593380f4ec10e004daecabf21945374d, type: 3}
   _PlayerHandObject: {fileID: 1843714983}
   PlayerHandList: []
   PlayerDiscardPile: []

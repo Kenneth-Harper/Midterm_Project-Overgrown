@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AttackCard : Card
 {
-    [SerializeField] int _attackDamage = 6;
-
+    [SerializeField] protected int _attackDamage = 6;
+    protected Enemy Target;
 
     private void OnMouseDrag() 
     {
@@ -21,17 +21,23 @@ public class AttackCard : Card
             gameObject.transform.position = this._PlaceWhenInHand;
             if (Player.instance._CurrentTarget != null && Player.instance.CanPlayCard(this._energyCost))
             {
+                Target = Player.instance._CurrentTarget.GetComponent<Enemy>();
                 AffectEnemy();
+                CardPlayed();
             }
         }
     }
 
-    private void AffectEnemy()
+    private void CardPlayed()
     {
-        Player.instance._CurrentTarget.GetComponent<Enemy>().EnemyTakeDamage(_attackDamage);
         Player.instance.PlayCard(this._PlaceInHand);
         Player.instance.SpendEnergy(_energyCost);
         Destroy(gameObject);
+    }
+
+    public virtual void AffectEnemy()
+    {
+        this.Target.EnemyTakeDamage(this._attackDamage);
     }
 
     void Update()

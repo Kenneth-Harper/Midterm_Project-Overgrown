@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
         instance = this;
         instance.PlayerDeck = _StartDeck;
         instance._CurrentPlayerEnergy = _MaxPlayerEnergy;
+        EncounterEvents.EndEncounter += OnEndEncounter;
     }
 
     void Start()
@@ -95,8 +96,8 @@ public class Player : MonoBehaviour
         {
             instance.ReshuffleDiscardPile();
         }
-        
         _TurnIndicator.GetComponent<TurnIndicator>().ShowDrawPhase();
+        HealthText.GetComponent<PlayerHPUpdater>().UpdateHealth();
         instance._CurrentPlayerEnergy = _MaxPlayerEnergy;
         EnergyText.GetComponent<EnergyGauge>().UpdateEnergy(instance._CurrentPlayerEnergy);
 
@@ -179,5 +180,10 @@ public class Player : MonoBehaviour
     public void showTurnEnded()
     {
         _TurnIndicator.GetComponent<TurnIndicator>().ShowEnemyTurn();
+    }
+
+    void OnEndEncounter(object sender, EventArgs args)
+    {
+        
     }
 }
