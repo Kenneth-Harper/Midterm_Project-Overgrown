@@ -163,6 +163,11 @@ public class Player : MonoBehaviour
         _PlayerPetals += amount;
     }
 
+    public void SubtractPetals(int amount)
+    {
+        _PlayerPetals -= amount;
+    }
+
     public void PlayerTakeDamage(int damage)
     {
         int Remainder = damage - instance._PlayerBlock;
@@ -188,6 +193,11 @@ public class Player : MonoBehaviour
     public bool CanPlayCard(int _energyCost)
     {
         return (instance._CurrentPlayerEnergy - _energyCost) >= 0;
+    }
+
+    public bool CanPurchaseCard(int _cardCost)
+    {
+        return (instance._PlayerPetals - _cardCost) >= 0;
     }
 
     public void showTurnEnded()

@@ -6,6 +6,7 @@ public class Card : MonoBehaviour
 {
     protected int _PlaceInHand;
     [SerializeField] protected int _energyCost = 1;
+    [SerializeField] protected int _CardValue;
     protected Vector3 _PlaceWhenInHand;
 
     private void Awake() 
@@ -42,4 +43,9 @@ public class Card : MonoBehaviour
     {
         _PlaceInHand = index;
     }    
+
+    public int GetTrueValue()
+    {
+        return _CardValue;
+    }
 }

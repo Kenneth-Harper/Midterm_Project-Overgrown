@@ -150,4 +150,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _energyCost: 1
+  _CardValue: 20
   _attackDamage: 6

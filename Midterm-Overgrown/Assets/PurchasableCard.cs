@@ -5,10 +5,24 @@ using UnityEngine;
 public class PurchasableCard : MonoBehaviour
 {
     private bool _IsBeingPressed = false;
+    private int _CardCost;
+    private int CardShopIndex;
     [SerializeField] GameObject AssociatedCard;
+    [SerializeField] bool _IsShopCard;
+
+    private GameObject AssociatedDisplay;
+    
     void Start()
     {
-        
+        if (_IsShopCard)
+        {
+            this.gameObject.transform.localScale = new Vector3(0.116161063f,0.116161078f,0.116161071f);
+            _CardCost = AssociatedCard.GetComponent<Card>().GetTrueValue();
+        }
+        else
+        {
+            this.gameObject.transform.localScale = new Vector3(0.179732412f,0.179732442f,0.179732427f);
+        }
     }
 
     void Update()
@@ -31,12 +45,50 @@ public class PurchasableCard : MonoBehaviour
         if (_IsBeingPressed)
         {
             _IsBeingPressed = false;
-            Player.instance.AddCardtoDeck(AssociatedCard);
-            Destroy(this.gameObject);
+            if (_IsShopCard)
+            {
+                if (Player.instance.CanPurchaseCard(_CardCost))
+                {
+                    Player.instance.AddCardtoDeck(AssociatedCard);
+                    Player.instance.SubtractPetals(_CardCost);
+                    AssociatedDisplay.GetComponent<PetalDisplay>().CardPurchased();
+                    Destroy(this.gameObject);
+                }
+            }
+            else
+            {
+                Player.instance.AddCardtoDeck(AssociatedCard);
+                Destroy(this.gameObject);
+            }
         }
     }
     private void OnMouseExit() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    public int GetCardCost()
+    {
+        return _CardCost;
+    }
+
+    public int GetShopIndex()
+    {
+        return CardShopIndex;
+    }
+
+    public void SetShopIndex(int Index)
+    {
+        CardShopIndex = Index;
+    }
+
+    public void SetDisplay(GameObject display)
+    {
+        AssociatedDisplay = display;
+    }
+
+    public void SetShopCard()
+    {
+        _IsShopCard = true;
     }
 }
