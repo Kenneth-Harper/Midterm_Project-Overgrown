@@ -42,9 +42,9 @@ public class ShopManager : MonoBehaviour
             CurrentCard.transform.parent = this.gameObject.transform;
             ActiveCards.Add(CurrentCard);
             CurrentCard.GetComponent<PurchasableCard>().SetShopIndex(i);
-            CurrentCard.GetComponent<PurchasableCard>().SetShopCard();
-            PetalCostDisplays[i].GetComponent<PetalDisplay>().SetCard(CurrentCard);
+            CurrentCard.GetComponent<PurchasableCard>().SetAsShopCard();
             CurrentCard.GetComponent<PurchasableCard>().SetDisplay(PetalCostDisplays[i]);
+            PetalCostDisplays[i].GetComponent<PetalDisplay>().SetCard(CurrentCard);
         }
     }
 

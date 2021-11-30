@@ -87,7 +87,7 @@ public class PurchasableCard : MonoBehaviour
         AssociatedDisplay = display;
     }
 
-    public void SetShopCard()
+    public void SetAsShopCard()
     {
         _IsShopCard = true;
     }

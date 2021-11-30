@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
 
 
     //Player Currency
-    int _PlayerPetals = 0;
+    int _PlayerPetals = 100;
 
     public static Player instance;
 
@@ -166,6 +166,7 @@ public class Player : MonoBehaviour
     public void SubtractPetals(int amount)
     {
         _PlayerPetals -= amount;
+        Debug.Log("Petals: " + _PlayerPetals);
     }
 
     public void PlayerTakeDamage(int damage)

@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AssociatedCard: {fileID: 2297106721929131185, guid: 8265f5272d012fb4ca58e19aa046c220, type: 3}
-  _IsShopCard: 0
+  _IsShopCard: 1
 --- !u!61 &4077055103784097030
 BoxCollider2D:
   m_ObjectHideFlags: 0
