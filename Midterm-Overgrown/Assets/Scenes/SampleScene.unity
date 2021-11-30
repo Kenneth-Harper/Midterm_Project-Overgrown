@@ -2363,7 +2363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c542f41c3ffbcb4468f52df25f6d0544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ScrollIncrement: 0
+  _ScrollIncrement: 1
 --- !u!1 &879403887
 GameObject:
   m_ObjectHideFlags: 0

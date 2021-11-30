@@ -30,9 +30,19 @@ public class RefreshButton : MonoBehaviour
         if (_IsBeingPressed)
         {
             _IsBeingPressed = false;
+            TryRefresh();
+        }
+    }
+
+    private void TryRefresh()
+    {
+        if (Player.instance.CanPurchaseCard(20))
+        {
+            Player.instance.SubtractPetals(20);
             ShopEvents.InvokeRefreshCards();
         }
     }
+
     private void OnMouseExit() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
