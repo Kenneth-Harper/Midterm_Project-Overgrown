@@ -5,7 +5,6 @@ using UnityEngine;
 public class PurchasableCard : MonoBehaviour
 {
     private bool _IsBeingPressed = false;
-    private int _CardCost;
     private int CardShopIndex;
     [SerializeField] GameObject AssociatedCard;
     [SerializeField] bool _IsShopCard;
@@ -17,7 +16,6 @@ public class PurchasableCard : MonoBehaviour
         if (_IsShopCard)
         {
             this.gameObject.transform.localScale = new Vector3(0.116161063f,0.116161078f,0.116161071f);
-            _CardCost = AssociatedCard.GetComponent<Card>().GetTrueValue();
         }
         else
         {
@@ -47,10 +45,10 @@ public class PurchasableCard : MonoBehaviour
             _IsBeingPressed = false;
             if (_IsShopCard)
             {
-                if (Player.instance.CanPurchaseCard(_CardCost))
+                if (Player.instance.CanPurchaseCard(AssociatedCard.GetComponent<Card>().GetTrueValue()))
                 {
                     Player.instance.AddCardtoDeck(AssociatedCard);
-                    Player.instance.SubtractPetals(_CardCost);
+                    Player.instance.SubtractPetals(AssociatedCard.GetComponent<Card>().GetTrueValue());
                     AssociatedDisplay.GetComponent<PetalDisplay>().CardPurchased();
                     Destroy(this.gameObject);
                 }
@@ -69,7 +67,7 @@ public class PurchasableCard : MonoBehaviour
 
     public int GetCardCost()
     {
-        return _CardCost;
+        return AssociatedCard.GetComponent<Card>().GetTrueValue();
     }
 
     public int GetShopIndex()

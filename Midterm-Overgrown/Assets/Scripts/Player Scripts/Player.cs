@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
     public bool _IsTargeting = false;
 
 
+    [SerializeField] private GameObject _LastMapNode;
+
     //Player Currency
     int _PlayerPetals = 100;
 
@@ -211,5 +213,15 @@ public class Player : MonoBehaviour
         _TurnIndicator.SetActive(false);
         HealthText.SetActive(false);
         _PlayerHandObject.SetActive(false);
+    }
+
+    public GameObject GetLastMapNode()
+    {
+        return _LastMapNode;
+    }
+
+    public void SetLastMapNode(GameObject newMapNode)
+    {
+        _LastMapNode = newMapNode;
     }
 }

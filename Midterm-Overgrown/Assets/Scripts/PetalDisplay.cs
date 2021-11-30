@@ -12,7 +12,7 @@ public class PetalDisplay : MonoBehaviour
     [SerializeField] private GameObject _PurchasableCard;
     void Start()
     {
-        
+
     }
 
     public void SetCard(GameObject card)

@@ -23,7 +23,6 @@ public class TurnIndicator : MonoBehaviour
 
     public void ShowDrawPhase()
     {
-        Debug.Log("Draw Phase Called");
         _DrawPhaseIndicator.GetComponent<SpriteRenderer>().enabled = true;
         _PlayerTurnIndicator.GetComponent<SpriteRenderer>().enabled = false;
         _EnemyTurnIndicator.GetComponent<SpriteRenderer>().enabled = false;
@@ -31,7 +30,6 @@ public class TurnIndicator : MonoBehaviour
 
     public void ShowPlayerTurn()
     {
-        Debug.Log("Player Turn Called");
         _DrawPhaseIndicator.GetComponent<SpriteRenderer>().enabled = false;
         _PlayerTurnIndicator.GetComponent<SpriteRenderer>().enabled = true;
         _EnemyTurnIndicator.GetComponent<SpriteRenderer>().enabled = false;
@@ -40,7 +38,6 @@ public class TurnIndicator : MonoBehaviour
 
     public void ShowEnemyTurn()
     {
-        Debug.Log("Enemy Turn Called");
         _DrawPhaseIndicator.GetComponent<SpriteRenderer>().enabled = false;
         _PlayerTurnIndicator.GetComponent<SpriteRenderer>().enabled = false;
         _EnemyTurnIndicator.GetComponent<SpriteRenderer>().enabled = true;
