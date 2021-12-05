@@ -12,6 +12,9 @@ public class GameStateEvents
 
     public static EventHandler StartShopEncounter;
 
+    public static EventHandler LoadStartScreen;
+
+    public static EventHandler GameOver;
 
     public static void InvokeStartBasicCombatEncounter()
     {
@@ -26,5 +29,15 @@ public class GameStateEvents
     public static void InvokeStartShopEncounter()
     {
         StartShopEncounter(null, EventArgs.Empty);
+    }
+
+    public static void InvokeLoadStartScreen()
+    {
+        LoadStartScreen(null, EventArgs.Empty);
+    }
+
+    public static void InvokeGameOver()
+    {
+        GameOver(null, EventArgs.Empty);
     }
 }
