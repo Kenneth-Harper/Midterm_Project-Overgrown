@@ -7,6 +7,10 @@ public class MapNode : MonoBehaviour
     protected bool _IsBeingPressed = false;
     protected bool _IsActive = true;
 
+    protected bool _HasBeenAccessed = false;
+
+    [SerializeField] private GameObject LineGenerator;
+
     [SerializeField] private int RoomLevel;
 
     [SerializeField] private List<GameObject> PriorNodes = new List<GameObject>(1);
@@ -14,15 +18,18 @@ public class MapNode : MonoBehaviour
 
     void Start()
     {
-
+        foreach (GameObject Node in NextNodes)
+        {
+            GameObject CurrentLine = Instantiate(LineGenerator);
+            CurrentLine.transform.SetParent(this.gameObject.transform);
+            CurrentLine.GetComponent<LineGenerator>().SetStartNode(gameObject);
+            CurrentLine.GetComponent<LineGenerator>().SetEndNode(Node);
+        }
     }
 
     private void OnEnable() 
     {
-        if (MapController.CurrentLevel == RoomLevel)
-        {
-            _IsActive = true;
-        }
+        
     }
 
     void Update()
@@ -62,10 +69,6 @@ public class MapNode : MonoBehaviour
         }
     }
 
-    public bool IsNodeActive()
-    {
-        return _IsActive;
-    }
 
     protected void Deactivate()
     {
