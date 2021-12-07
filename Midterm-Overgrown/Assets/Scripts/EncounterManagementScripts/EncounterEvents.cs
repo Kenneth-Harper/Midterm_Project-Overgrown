@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EncounterEventArgs : EventArgs
+public class EncounterEnemyDeathArgs : EventArgs
 {
-    public GameObject enemyObject;
+    public GameObject deadEnemyObject;
+}
+
+public class EncounterSpawningArgs : EventArgs
+{
+    public List<GameObject> activeEnemies;
 }
 
 public static class EncounterEvents
 {
     public static event EventHandler LookingForTarget;
-    public static event EventHandler<EncounterEventArgs> AttackTargetReply;
     public static event EventHandler PlayerTurnStarted;
     public static event EventHandler PlayerTurnEnded;
     public static event EventHandler EnemyTurnStarted;
     public static event EventHandler EnemyTurnEnded;
     public static event EventHandler DiscardingHand;
-    public static event EventHandler EnemyDied;
+    public static event EventHandler<EncounterEnemyDeathArgs> EnemyDied;
     public static event EventHandler EndEncounter;
+    public static event EventHandler<EncounterSpawningArgs> SetEnemiesForEncounter;
 
     public static void InvokeLookingForTarget()
     {
         LookingForTarget(null, EventArgs.Empty);
-    }
-
-    public static void InvokeAttackTargetReply(GameObject CardRecipient)
-    {
-        AttackTargetReply(null, new EncounterEventArgs { enemyObject = CardRecipient});
     }
 
     public static void InvokeTurnEnded()
@@ -55,8 +55,13 @@ public static class EncounterEvents
         EndEncounter(null, EventArgs.Empty);
     }
 
-    public static void InvokeEnemyDied()
+    public static void InvokeEnemyDied(GameObject deadEnemy)
     {
-        EnemyDied(null, EventArgs.Empty);
+        EnemyDied(null, new EncounterEnemyDeathArgs {deadEnemyObject = deadEnemy});
+    }
+
+    public static void InvokeSetEnemiesForEncounter(List<GameObject> Enemies)
+    {
+        SetEnemiesForEncounter(null, new EncounterSpawningArgs {activeEnemies = Enemies});
     }
 }

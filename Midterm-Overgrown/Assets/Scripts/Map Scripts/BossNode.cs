@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BossNode : MapNode
 {
+    [SerializeField] private GameObject BossMonster;
+
     public override void OnMouseUp()
     {
         if (this._IsBeingPressed)
@@ -11,6 +13,7 @@ public class BossNode : MapNode
             this._IsBeingPressed = false;
             this.Deactivate();
             GameStateEvents.InvokeStartBasicCombatEncounter();
+            EncounterEvents.InvokeSetEnemiesForEncounter(new List<GameObject>{BossMonster});
         }
     }
 }

@@ -22,10 +22,14 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        
+    }
+
+    public void InitializeHealth()
+    {
         HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_HealthPoints <= 0)
@@ -78,12 +82,12 @@ public class Enemy : MonoBehaviour
         HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints);
         if (_HealthPoints <= 0)
         {
-            EncounterEvents.InvokeEnemyDied();
+            EncounterEvents.InvokeEnemyDied(this.gameObject);
             HealthTextObject.GetComponent<TextMeshProUGUI>().enabled = false;
         }
     }
 
-    public void attackPlayer()
+    public void TakeTurn()
     {
         int _attackValue = UnityEngine.Random.Range(_BottomDamage, _TopDamage);
         Player.instance.PlayerTakeDamage(_attackValue);
