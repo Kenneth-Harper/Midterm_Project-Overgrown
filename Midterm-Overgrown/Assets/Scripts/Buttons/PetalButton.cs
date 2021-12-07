@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+
 
 public class PetalButton : MonoBehaviour
 {
@@ -17,6 +20,13 @@ public class PetalButton : MonoBehaviour
         
     }
     
+    void OnEnable() 
+    {
+        PetalAmount = Random.Range(30, 50);    
+        TextMeshProUGUI textComponent = PetalText.GetComponent<TextMeshProUGUI>();
+        textComponent.text = "Petals: " + PetalAmount;
+    }
+
     private void OnMouseEnter() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;

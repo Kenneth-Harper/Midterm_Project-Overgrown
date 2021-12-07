@@ -29,7 +29,18 @@ public class MapNode : MonoBehaviour
 
     private void OnEnable() 
     {
-        
+        if (RoomLevel == 0 && Player.instance.CurrentLevel == RoomLevel)
+        {
+            _IsActive = true;
+        }
+        else if (RoomLevel == Player.instance.CurrentLevel)
+        {
+            _IsActive = true;
+        }
+        else
+        {
+            _IsActive = false;
+        }
     }
 
     void Update()
@@ -53,14 +64,22 @@ public class MapNode : MonoBehaviour
         }
     }
 
-    public virtual void OnMouseUp()
+    private void OnMouseUp()
     {
         if (_IsBeingPressed)
         {
             _IsBeingPressed = false;
-            
+            Player.instance.SetLastMapNode(this.gameObject);
+            Player.instance.CurrentLevel++;
+            PressedEffect();
         }
     }
+
+    public virtual void PressedEffect()
+    {
+
+    }
+
     private void OnMouseExit() 
     {
         if (_IsActive)
@@ -73,7 +92,6 @@ public class MapNode : MonoBehaviour
     protected void Deactivate()
     {
         Player.instance.SetLastMapNode(this.gameObject);
-        MapController.CurrentLevel++;
         _IsActive = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.red;
     }

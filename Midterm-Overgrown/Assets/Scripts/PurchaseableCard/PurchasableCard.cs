@@ -89,4 +89,9 @@ public class PurchasableCard : MonoBehaviour
     {
         _IsShopCard = true;
     }
+
+    public void SetAsRewardCard()
+    {
+        _IsShopCard = false;
+    }
 }

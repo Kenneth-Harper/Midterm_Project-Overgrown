@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class MainMenu_Button : MonoBehaviour
+public class RewardScreen_ExitButton : MonoBehaviour
 {
-    private bool _IsBeingPressed = false;    
-    
+    private bool _IsBeingPressed = false;  
+    [SerializeField] GameObject RewardInterface;
+
     private void OnMouseEnter() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
@@ -22,10 +22,11 @@ public class MainMenu_Button : MonoBehaviour
         if (_IsBeingPressed)
         {
             _IsBeingPressed = false;
-            GameStateEvents.InvokeLoadStartScreen();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            RewardInterface.GetComponent<RewardScreen>().DisableRewardScreen();
+            GameStateEvents.InvokeStartMapScreen();
         }
     }
+
     private void OnMouseExit() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;

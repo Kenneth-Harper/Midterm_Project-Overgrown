@@ -17,9 +17,9 @@ public class EnemyHPUpdater : MonoBehaviour
         
     }
 
-    public void UpdateHealth(int CurrentHealth, int MaxHealth)
+    public void UpdateHealth(int CurrentHealth, int MaxHealth, int BlockAmount)
     {
         TextMeshProUGUI textComponent = gameObject.GetComponent<TextMeshProUGUI>();
-        textComponent.text = "HP:" + CurrentHealth + "/" + MaxHealth;
+        textComponent.text = "BP: " + BlockAmount + " HP:" + CurrentHealth + "/" + MaxHealth;
     }
 }

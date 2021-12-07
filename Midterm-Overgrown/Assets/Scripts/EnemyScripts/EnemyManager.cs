@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.UI;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -34,6 +36,7 @@ public class EnemyManager : MonoBehaviour
     {
         List<GameObject> TheseEnemies = args.activeEnemies;
         SetEnemies(TheseEnemies);
+        RestartHealthDisplays();
     }
 
     private void SetEnemies(List<GameObject> enemies)
@@ -62,6 +65,15 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    private void RestartHealthDisplays()
+    {
+        foreach (GameObject display in EnemyHealthTexts)
+        {
+            display.SetActive(true);
+            display.GetComponent<TextMeshProUGUI>().enabled = true;
+        }
+    }
+
     void OnEnemyTurnStarted(object sender, EventArgs args)
     {
         for (int i = 0; i < gameObject.transform.childCount; i++)
@@ -76,10 +88,9 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject DeadEnemy = args.deadEnemyObject;
         SpawnedEnemies.Remove(DeadEnemy);
-        Destroy(DeadEnemy);
         if (SpawnedEnemies.Count <= 0)
         {
-            EncounterEvents.InvokeEndEncounter();
+            EncounterEvents.InvokeRewardScreen();
         }
     }
 }

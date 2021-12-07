@@ -23,6 +23,10 @@ public class Player : MonoBehaviour
     [SerializeField] public int _PlayerHealth = 60;
     [SerializeField] public int _MaxPlayerHealth = 60;
     public int _PlayerBlock = 0;
+    
+    //Player Statuses
+    int _Hemorrhage = 0;
+
     [SerializeField] GameObject HealthText;
 
 
@@ -38,8 +42,10 @@ public class Player : MonoBehaviour
     public GameObject _CurrentTarget;
     public bool _IsTargeting = false;
 
-
+    //Map Information
     [SerializeField] private GameObject _LastMapNode;
+    public int CurrentLevel = 0;
+
 
     //Player Currency
     int _PlayerPetals = 100;
@@ -51,7 +57,8 @@ public class Player : MonoBehaviour
         instance = this;
         instance.PlayerDeck = _StartDeck;
         instance._CurrentPlayerEnergy = _MaxPlayerEnergy;
-        EncounterEvents.EndEncounter += OnEndEncounter;
+        GameStateEvents.StartBasicCombatEncounter += OnStartBasicCombatEncounter;
+        EncounterEvents.RewardScreen += OnRewardScreen;
     }
 
     void Start()
@@ -62,6 +69,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnStartBasicCombatEncounter(object sender, EventArgs args)
+    {
+        _TurnIndicator.SetActive(true);
+        HealthText.SetActive(true);
+        _PlayerHandObject.SetActive(true);
+        ShuffleDeck();
     }
 
     public void ShuffleList(List<GameObject> CardPile)
@@ -173,11 +188,20 @@ public class Player : MonoBehaviour
 
     public void PlayerTakeDamage(int damage)
     {
+        if (_Hemorrhage > 0)
+        {
+            damage = (int)(1.5 * damage);
+        }
+        
         int Remainder = damage - instance._PlayerBlock;
         if (Remainder > 0)
         {
             _PlayerBlock = 0;
             _PlayerHealth -= Remainder;
+            if (_PlayerHealth <= 0)
+            {
+                GameStateEvents.InvokeGameOver();
+            }
         }
         else
         {
@@ -208,7 +232,7 @@ public class Player : MonoBehaviour
         _TurnIndicator.GetComponent<TurnIndicator>().ShowEnemyTurn();
     }
 
-    void OnEndEncounter(object sender, EventArgs args)
+    void OnRewardScreen(object sender, EventArgs args)
     {
         _TurnIndicator.SetActive(false);
         HealthText.SetActive(false);
@@ -223,5 +247,10 @@ public class Player : MonoBehaviour
     public void SetLastMapNode(GameObject newMapNode)
     {
         _LastMapNode = newMapNode;
+    }
+
+    public void AddHemorrhage(int amount)
+    {
+        instance._Hemorrhage += amount;
     }
 }

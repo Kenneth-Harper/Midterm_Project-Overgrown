@@ -6,8 +6,9 @@ using System;
 public class EncounterManager : MonoBehaviour
 {
     public EncounterState currentGameState;
-
     public EncounterManager instance;
+    [SerializeField] GameObject RewardInterface;
+
     private void Awake() 
     {
         EncounterEvents.PlayerTurnEnded += OnTurnEnded;    
@@ -17,7 +18,18 @@ public class EncounterManager : MonoBehaviour
     void Start()
     {
         instance = this;
+        RewardInterface.GetComponent<RewardScreen>().DisableRewardScreen();
         currentGameState = EncounterState.CombatStart;
+        Player.instance.DiscardHand();
+        Player.instance.ShuffleDeck();
+        Invoke("InitiateDrawPhase", 1);
+    }
+
+    void OnEnable() 
+    {
+        RewardInterface.GetComponent<RewardScreen>().DisableRewardScreen();
+        currentGameState = EncounterState.CombatStart;
+        Player.instance.DiscardHand();
         Player.instance.ShuffleDeck();
         Invoke("InitiateDrawPhase", 1);
     }
@@ -90,7 +102,7 @@ public class EncounterManager : MonoBehaviour
         if (currentGameState == EncounterState.EnemyTurn)
         {
             currentGameState = EncounterState.EnemyTurnEnd;
-            Invoke("InitiateDrawPhase", 2);
+            Invoke("InitiateDrawPhase", 1);
         }
     }
 

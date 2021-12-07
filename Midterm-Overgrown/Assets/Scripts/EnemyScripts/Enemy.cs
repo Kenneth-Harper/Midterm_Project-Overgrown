@@ -7,17 +7,23 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] int _HealthPoints = 20;
-    [SerializeField] int _MaxHealthPoints = 20;
-    [SerializeField] int _TopDamage = 10;
-    [SerializeField] int _BottomDamage = 5;
+    [SerializeField] protected int _HealthPoints = 20;
+    [SerializeField] protected int _MaxHealthPoints = 20;
+    [SerializeField] protected int _TopDamage = 10;
+    [SerializeField] protected int _BottomDamage = 5;
+
+    [SerializeField] protected int _EnemyBlock = 0;
+
     [SerializeField] public GameObject HealthTextObject;
     int _Status_Scorched = 0;
     int _Status_Frail = 0; 
-    
+
+    private bool _IsDead = false;
+
     void Awake() 
     {
         EncounterEvents.PlayerTurnEnded += OnTurnEndedForEnemy;      
+        EncounterEvents.PlayerTurnStarted += OnPlayerTurnStarted;
     }
 
     void Start()
@@ -27,7 +33,7 @@ public class Enemy : MonoBehaviour
 
     public void InitializeHealth()
     {
-        HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints);
+        HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints, _EnemyBlock);
     }
 
     void Update()
@@ -70,24 +76,34 @@ public class Enemy : MonoBehaviour
 
     public void EnemyTakeDamage(int damage)
     {
+        int Remainder = damage - _EnemyBlock;
+        
+        if (Remainder > 0)
+        {
+            _EnemyBlock = 0;
+            damage = Remainder;
+        }
+
         if (_Status_Frail > 0)
         {
             _HealthPoints -= (int)(damage * 1.5f);
-            --_Status_Frail;
         }
         else
         {
             _HealthPoints -= damage;
         }
-        HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints);
+        HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints, _EnemyBlock);
         if (_HealthPoints <= 0)
         {
+            _Status_Frail = 0;
+            _Status_Scorched = 0;
             EncounterEvents.InvokeEnemyDied(this.gameObject);
             HealthTextObject.GetComponent<TextMeshProUGUI>().enabled = false;
+            _IsDead = true;
         }
     }
 
-    public void TakeTurn()
+    public virtual void TakeTurn()
     {
         int _attackValue = UnityEngine.Random.Range(_BottomDamage, _TopDamage);
         Player.instance.PlayerTakeDamage(_attackValue);
@@ -95,6 +111,10 @@ public class Enemy : MonoBehaviour
 
     public void OnTurnEndedForEnemy(object sender, EventArgs args)
     {
+        if (_Status_Frail > 0)
+        {
+            _Status_Frail--;
+        }
         if (_Status_Scorched > 0)
         {
             float Multiplier = UnityEngine.Random.Range(0.5f, 1.5f);
@@ -102,8 +122,22 @@ public class Enemy : MonoBehaviour
             if(ScorchDamage == 0)
             {ScorchDamage = 1;}
             _HealthPoints -= ScorchDamage;
-            HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints);
+            HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints, _EnemyBlock);
             --_Status_Scorched;
+            if (_HealthPoints <= 0)
+            {
+                EncounterEvents.InvokeEnemyDied(this.gameObject);
+                HealthTextObject.GetComponent<TextMeshProUGUI>().enabled = false;
+                _IsDead = true;
+            }
+        }
+    }
+
+    public void OnPlayerTurnStarted(object sender, EventArgs args)
+    {
+        if (_IsDead)
+        {
+            Destroy(gameObject);
         }
     }
 }

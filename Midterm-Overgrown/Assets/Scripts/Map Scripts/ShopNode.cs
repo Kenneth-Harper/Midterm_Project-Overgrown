@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class ShopNode : MapNode
 {
-    public override void OnMouseUp()
+    public override void PressedEffect()
     {
-        if (this._IsBeingPressed)
-        {
-            this._IsBeingPressed = false;
-            this.Deactivate();
-            GameStateEvents.InvokeStartShopEncounter();
-        }
+        this._IsBeingPressed = false;
+        this.Deactivate();
+        GameStateEvents.InvokeStartShopEncounter();
     }
 }

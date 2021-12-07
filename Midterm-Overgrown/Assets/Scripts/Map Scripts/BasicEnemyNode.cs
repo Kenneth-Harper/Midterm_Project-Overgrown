@@ -6,14 +6,11 @@ public class BasicEnemyNode : MapNode
 {
     [SerializeField] private List<GameObject> EncounterEnemies; 
 
-    public override void OnMouseUp()
+    public override void PressedEffect()
     {
-        if (this._IsBeingPressed)
-        {
-            this._IsBeingPressed = false;
-            this.Deactivate();
-            GameStateEvents.InvokeStartBasicCombatEncounter();
-            EncounterEvents.InvokeSetEnemiesForEncounter(EncounterEnemies);
-        }
+        this._IsBeingPressed = false;
+        this.Deactivate();
+        GameStateEvents.InvokeStartBasicCombatEncounter();
+        EncounterEvents.InvokeSetEnemiesForEncounter(EncounterEnemies);
     }
 }

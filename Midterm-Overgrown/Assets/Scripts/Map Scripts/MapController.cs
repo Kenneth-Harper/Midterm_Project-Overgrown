@@ -7,7 +7,6 @@ public class MapController : MonoBehaviour
     [SerializeField] float _ScrollIncrement;
 
     public static bool _IsFirstNode = true;
-    public static int CurrentLevel = 0;
 
     void Start()
     {

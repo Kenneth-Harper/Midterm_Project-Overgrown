@@ -22,6 +22,7 @@ public static class EncounterEvents
     public static event EventHandler EnemyTurnEnded;
     public static event EventHandler DiscardingHand;
     public static event EventHandler<EncounterEnemyDeathArgs> EnemyDied;
+    public static event EventHandler RewardScreen;
     public static event EventHandler EndEncounter;
     public static event EventHandler<EncounterSpawningArgs> SetEnemiesForEncounter;
 
@@ -48,6 +49,11 @@ public static class EncounterEvents
     public static void InvokeEnemyTurnEnded()
     {
         EnemyTurnEnded(null, EventArgs.Empty);
+    }
+
+    public static void InvokeRewardScreen()
+    {
+        RewardScreen(null, EventArgs.Empty);
     }
 
     public static void InvokeEndEncounter()
