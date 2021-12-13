@@ -5,7 +5,7 @@ using System;
 
 public class EncounterManager : MonoBehaviour
 {
-    public EncounterState currentGameState;
+    public EncounterState currentGameState; 
     public EncounterManager instance;
     [SerializeField] GameObject RewardInterface;
 
@@ -69,7 +69,7 @@ public class EncounterManager : MonoBehaviour
         {
             currentGameState = EncounterState.PlayerTurnEnd;
             Player.instance.DiscardHand();
-            InitiateEnemyTurn();
+            Invoke("InitiateEnemyTurn", 1);
         }
     }
 
@@ -79,7 +79,7 @@ public class EncounterManager : MonoBehaviour
         {
             currentGameState = EncounterState.EnemyTurnStart;
             EncounterEvents.InvokeDiscardingHand();
-            EnemyTurn();
+            Invoke("EnemyTurn", 1);
         }
     }
 
@@ -94,7 +94,7 @@ public class EncounterManager : MonoBehaviour
 
     void OnEnemyTurnEnded(object sender, EventArgs args)
     {
-        EndEnemyTurn();
+        Invoke("EndEnemyTurn", 1);
     }
 
     void EndEnemyTurn()

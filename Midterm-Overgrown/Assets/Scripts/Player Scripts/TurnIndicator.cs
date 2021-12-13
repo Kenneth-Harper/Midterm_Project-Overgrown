@@ -31,8 +31,13 @@ public class TurnIndicator : MonoBehaviour
     public void ShowPlayerTurn()
     {
         _DrawPhaseIndicator.GetComponent<SpriteRenderer>().enabled = false;
-        _PlayerTurnIndicator.GetComponent<SpriteRenderer>().enabled = true;
         _EnemyTurnIndicator.GetComponent<SpriteRenderer>().enabled = false;
+        Invoke("ButtonActive", .5f);
+    }
+    
+    private void ButtonActive()
+    {
+        _PlayerTurnIndicator.GetComponent<SpriteRenderer>().enabled = true;
         _PlayerTurnIndicator.GetComponent<CircleCollider2D>().enabled = true;
     }
 

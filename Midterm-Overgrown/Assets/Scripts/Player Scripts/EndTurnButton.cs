@@ -30,9 +30,15 @@ public class EndTurnButton : MonoBehaviour
         if (_IsBeingPressed)
         {
             _IsBeingPressed = false;
-            EncounterEvents.InvokeTurnEnded();
+            Invoke("ButtonEffect", .25f);
         }
     }
+
+    private void ButtonEffect()
+    {
+        EncounterEvents.InvokeTurnEnded();
+    }
+
     private void OnMouseExit() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;

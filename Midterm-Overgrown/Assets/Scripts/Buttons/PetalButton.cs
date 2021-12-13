@@ -10,6 +10,14 @@ public class PetalButton : MonoBehaviour
     private bool _IsBeingPressed = false;    
     private int PetalAmount = 36;
     [SerializeField] private GameObject PetalText;
+
+    Color _BaseColor;
+
+    void Awake() 
+    {
+        _BaseColor = this.GetComponent<SpriteRenderer>().color;
+    }
+
     void Start()
     {
         PetalText.SetActive(true);
@@ -23,8 +31,10 @@ public class PetalButton : MonoBehaviour
     void OnEnable() 
     {
         PetalAmount = Random.Range(30, 50);    
+        PetalText.SetActive(true);
         TextMeshProUGUI textComponent = PetalText.GetComponent<TextMeshProUGUI>();
         textComponent.text = "Petals: " + PetalAmount;
+        this.GetComponent<SpriteRenderer>().color = _BaseColor;
     }
 
     private void OnMouseEnter() 
@@ -49,6 +59,6 @@ public class PetalButton : MonoBehaviour
     }
     private void OnMouseExit() 
     {
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        gameObject.GetComponent<SpriteRenderer>().color = _BaseColor;
     }
 }

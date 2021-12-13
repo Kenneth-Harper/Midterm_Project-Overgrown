@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     //General Player Deck Variables
     [SerializeField] List<GameObject> _StartDeck;
-    List<GameObject> PlayerDeck;
+    List<GameObject> PlayerDeck = new List<GameObject>();
     
 
     //Variables Involved with the PlayerHand
@@ -45,20 +45,23 @@ public class Player : MonoBehaviour
     //Map Information
     [SerializeField] private GameObject _LastMapNode;
     public int CurrentLevel = 0;
+    public bool IsFirstNode = true;
 
 
     //Player Currency
-    int _PlayerPetals = 100;
+    public int _PlayerPetals = 100;
 
     public static Player instance;
 
     void Awake()
     {
         instance = this;
-        instance.PlayerDeck = _StartDeck;
+        PlayerDeck.Clear();
+        PlayerDeck.AddRange(_StartDeck);
         instance._CurrentPlayerEnergy = _MaxPlayerEnergy;
         GameStateEvents.StartBasicCombatEncounter += OnStartBasicCombatEncounter;
         EncounterEvents.RewardScreen += OnRewardScreen;
+        GameStateEvents.LoadStartScreen += OnLoadStartScreen;
     }
 
     void Start()
@@ -69,6 +72,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnLoadStartScreen(object sender, EventArgs args)
+    {
+        _PlayerHealth = _MaxPlayerHealth;
+        PlayerDeck.Clear();
+        PlayerDeck.AddRange(_StartDeck);
     }
 
     void OnStartBasicCombatEncounter(object sender, EventArgs args)
@@ -183,7 +193,6 @@ public class Player : MonoBehaviour
     public void SubtractPetals(int amount)
     {
         _PlayerPetals -= amount;
-        Debug.Log("Petals: " + _PlayerPetals);
     }
 
     public void PlayerTakeDamage(int damage)

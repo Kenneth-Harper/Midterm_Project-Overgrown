@@ -16,7 +16,7 @@ public class EncounterSpawningArgs : EventArgs
 public static class EncounterEvents
 {
     public static event EventHandler LookingForTarget;
-    public static event EventHandler PlayerTurnStarted;
+    //public static event EventHandler PlayerTurnStarted;
     public static event EventHandler PlayerTurnEnded;
     public static event EventHandler EnemyTurnStarted;
     public static event EventHandler EnemyTurnEnded;

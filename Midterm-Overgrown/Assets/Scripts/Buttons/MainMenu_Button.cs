@@ -23,7 +23,8 @@ public class MainMenu_Button : MonoBehaviour
         {
             _IsBeingPressed = false;
             GameStateEvents.InvokeLoadStartScreen();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameStateEvents.InvokeReset();
+            Player.instance.CurrentLevel = 0;
         }
     }
     private void OnMouseExit() 

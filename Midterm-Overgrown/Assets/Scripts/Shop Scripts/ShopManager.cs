@@ -24,6 +24,11 @@ public class ShopManager : MonoBehaviour
         RefreshCardShop();
     }
 
+     void OnEnable()    
+    {
+        RefreshCardShop();
+    }
+
     void OnRefreshCards(object sender, EventArgs args)
     {
         RefreshCardShop();

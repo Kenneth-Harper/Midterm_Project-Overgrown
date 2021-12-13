@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MapNode : MonoBehaviour
 {
     protected bool _IsBeingPressed = false;
-    protected bool _IsActive = true;
+    protected bool _IsActive = false;
 
     protected bool _HasBeenAccessed = false;
 
@@ -15,6 +16,11 @@ public class MapNode : MonoBehaviour
 
     [SerializeField] private List<GameObject> PriorNodes = new List<GameObject>(1);
     [SerializeField] private List<GameObject> NextNodes = new List<GameObject>(1);
+
+    void Awake() 
+    {
+
+    }
 
     void Start()
     {
@@ -29,11 +35,17 @@ public class MapNode : MonoBehaviour
 
     private void OnEnable() 
     {
-        if (RoomLevel == 0 && Player.instance.CurrentLevel == RoomLevel)
+        
+    }
+
+    void Update()
+    {
+        if (this.RoomLevel == 0 & Player.instance.CurrentLevel == 0)
         {
             _IsActive = true;
+            Player.instance.IsFirstNode = false;
         }
-        else if (RoomLevel == Player.instance.CurrentLevel)
+        else if (this.RoomLevel == Player.instance.CurrentLevel && PriorNodes.Contains(Player.instance.GetLastMapNode()))
         {
             _IsActive = true;
         }
@@ -41,11 +53,6 @@ public class MapNode : MonoBehaviour
         {
             _IsActive = false;
         }
-    }
-
-    void Update()
-    {
-        
     }
 
     private void OnMouseEnter() 
@@ -104,5 +111,20 @@ public class MapNode : MonoBehaviour
     public void AddNextNode(GameObject node)
     {
         NextNodes.Add(node);
+    }
+
+    public void SetNodeLevel(int level)
+    {
+        RoomLevel = level;
+    }
+
+    public bool HasPriorNodes()
+    {
+        bool ReturnedValue = false;
+        if (PriorNodes.Count > 0)
+        {
+            ReturnedValue = true;
+        }
+        return ReturnedValue;
     }
 }

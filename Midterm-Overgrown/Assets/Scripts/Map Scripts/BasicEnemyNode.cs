@@ -13,4 +13,10 @@ public class BasicEnemyNode : MapNode
         GameStateEvents.InvokeStartBasicCombatEncounter();
         EncounterEvents.InvokeSetEnemiesForEncounter(EncounterEnemies);
     }
+
+    public void AddEnemies(List<GameObject> enemies)
+    {
+        EncounterEnemies.Clear();
+        EncounterEnemies.AddRange(enemies);
+    }
 }

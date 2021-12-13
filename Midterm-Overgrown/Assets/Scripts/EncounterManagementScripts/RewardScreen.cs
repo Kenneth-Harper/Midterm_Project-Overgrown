@@ -46,8 +46,8 @@ public class RewardScreen : MonoBehaviour
         {
             int RandomIndex = UnityEngine.Random.Range(0, AvailableRewards.Count);
             GameObject RewardCard = Instantiate(AvailableRewards[RandomIndex]);
-            RewardCard.transform.localPosition = RewardCardPositions[i];
             RewardCard.transform.SetParent(this.gameObject.transform);
+            RewardCard.transform.localPosition = RewardCardPositions[i];
         }    
     }
 

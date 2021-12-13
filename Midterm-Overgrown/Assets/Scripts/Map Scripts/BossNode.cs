@@ -9,6 +9,7 @@ public class BossNode : MapNode
     public override void PressedEffect()
     {
         this._IsBeingPressed = false;
+        EnemyManager._IsBossEncounter = true;
         this.Deactivate();
         GameStateEvents.InvokeStartBasicCombatEncounter();
         EncounterEvents.InvokeSetEnemiesForEncounter(new List<GameObject>{BossMonster});

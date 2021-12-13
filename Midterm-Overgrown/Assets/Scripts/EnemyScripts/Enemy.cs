@@ -18,12 +18,10 @@ public class Enemy : MonoBehaviour
     int _Status_Scorched = 0;
     int _Status_Frail = 0; 
 
-    private bool _IsDead = false;
-
     void Awake() 
     {
         EncounterEvents.PlayerTurnEnded += OnTurnEndedForEnemy;      
-        EncounterEvents.PlayerTurnStarted += OnPlayerTurnStarted;
+        GameStateEvents.Reset += OnReset;
     }
 
     void Start()
@@ -38,10 +36,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (_HealthPoints <= 0)
-        {
-            Destroy(this.gameObject);
-        }
+        
     }
 
     private void OnMouseOver() 
@@ -97,9 +92,9 @@ public class Enemy : MonoBehaviour
         {
             _Status_Frail = 0;
             _Status_Scorched = 0;
-            EncounterEvents.InvokeEnemyDied(this.gameObject);
             HealthTextObject.GetComponent<TextMeshProUGUI>().enabled = false;
-            _IsDead = true;
+            EncounterEvents.InvokeEnemyDied(this.gameObject);
+            KillEnemy();
         }
     }
 
@@ -124,20 +119,24 @@ public class Enemy : MonoBehaviour
             _HealthPoints -= ScorchDamage;
             HealthTextObject.GetComponent<EnemyHPUpdater>().UpdateHealth(_HealthPoints, _MaxHealthPoints, _EnemyBlock);
             --_Status_Scorched;
-            if (_HealthPoints <= 0)
-            {
-                EncounterEvents.InvokeEnemyDied(this.gameObject);
-                HealthTextObject.GetComponent<TextMeshProUGUI>().enabled = false;
-                _IsDead = true;
-            }
+        }
+        if (_HealthPoints <= 0)
+        {
+            HealthTextObject.GetComponent<TextMeshProUGUI>().enabled = false;
+            EncounterEvents.InvokeEnemyDied(this.gameObject);
+            KillEnemy();
         }
     }
 
-    public void OnPlayerTurnStarted(object sender, EventArgs args)
+    private void KillEnemy()
     {
-        if (_IsDead)
-        {
-            Destroy(gameObject);
-        }
+        EncounterEvents.PlayerTurnEnded -= OnTurnEndedForEnemy;
+        GameStateEvents.Reset -= OnReset;
+        Destroy(this.gameObject);
+    }
+
+    public void OnReset(object sender, EventArgs args)
+    {
+        KillEnemy();
     }
 }

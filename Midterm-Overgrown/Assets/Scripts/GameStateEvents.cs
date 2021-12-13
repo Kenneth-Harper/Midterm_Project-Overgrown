@@ -16,6 +16,10 @@ public class GameStateEvents
 
     public static EventHandler GameOver;
 
+    public static EventHandler GameWon;
+
+    public static EventHandler Reset;
+
     public static void InvokeStartBasicCombatEncounter()
     {
         StartBasicCombatEncounter(null, EventArgs.Empty);
@@ -39,5 +43,15 @@ public class GameStateEvents
     public static void InvokeGameOver()
     {
         GameOver(null, EventArgs.Empty);
+    }
+
+    public static void InvokeGameWon()
+    {
+        GameWon(null, EventArgs.Empty);
+    }
+
+    public static void InvokeReset()
+    {
+        Reset(null, EventArgs.Empty);
     }
 }
